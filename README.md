@@ -33,6 +33,23 @@ Built for the **AI-Native Creator Economy & Digital Rights** track.
 - Any change to the contract interface must be agreed in `docs/INTERFACE.md` first,
   then implemented in `/contracts` and `/shared` together in the same PR.
 
+## Web
+
+Next.js + wagmi frontend in `/web`. Full details are in [`web/README.md`](web/README.md).
+
+```bash
+cd web
+npm install
+cp .env.example .env.local   # NEXT_PUBLIC_USE_MOCK=true for demo data, false for the real contract
+npm run dev                  # http://localhost:3000
+```
+
+- **Mock mode** (`NEXT_PUBLIC_USE_MOCK=true`) runs the whole flow in the browser with demo
+  wallets. It needs no deployment and no MetaMask.
+- **Sepolia** (`NEXT_PUBLIC_USE_MOCK=false`) reads the address from `shared/deployments.json`
+  and needs MetaMask on Sepolia. Set `NEXT_PUBLIC_CHAIN=anvil` to use a local Anvil node instead.
+- The 2-minute demo click path is on the app's **Demo guide** page (`/demo`).
+
 ## Contracts
 
 ### Build
