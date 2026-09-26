@@ -1,4 +1,10 @@
 {
-  "sepolia": { "chainId": 11155111, "address": "" },
-  "anvil": { "chainId": 31337, "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3" }
+  "sepolia": {
+    "chainId": 11155111,
+    "address": "0x7E6edc504D7e3e75307fDC8Dcb91788D52c17097"
+  },
+  "anvil": {
+    "chainId": 31337,
+    "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  }
 }
