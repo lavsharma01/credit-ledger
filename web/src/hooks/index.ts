@@ -2,7 +2,7 @@
 // in-memory mock (NEXT_PUBLIC_USE_MOCK=true) and the deployed contract internally,
 // so pages never need to know which mode they're in.
 export { useWorks } from "./useWorks";
-export { useWork } from "./useWork";
+export { isWorkNotFound, useWork } from "./useWork";
 export { useWorkDetails } from "./useWorkDetails";
 export { useWorkIdByHash } from "./useWorkIdByHash";
 export { usePendingWithdrawal } from "./usePendingWithdrawal";

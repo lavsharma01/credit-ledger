@@ -87,6 +87,11 @@ export function useTxRunner(label: string) {
         setState({ status: "success", txHash });
         emitTxEvent({ label, status: "success", txHash });
         await queryClient.invalidateQueries({ queryKey: QUERY_ROOT });
+        // Public RPCs are load-balanced; a node that lags a block can serve stale
+        // reads right after the receipt, so refresh once more shortly after.
+        if (!USE_MOCK) {
+          setTimeout(() => queryClient.invalidateQueries({ queryKey: QUERY_ROOT }), 4_000);
+        }
         return result;
       } catch (err) {
         console.error(`[${label}]`, err);

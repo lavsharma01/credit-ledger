@@ -59,7 +59,8 @@ export function TxToaster() {
               <p className="font-medium">{t.label}</p>
               <p className="text-stone-600">
                 {t.status === "signing" && "Confirm in your wallet…"}
-                {t.status === "confirming" && "Transaction sent. Waiting for it to be mined…"}
+                {t.status === "confirming" &&
+                  `Transaction sent. Waiting for it to be mined${USE_MOCK ? "" : " (~15 s)"}…`}
                 {t.status === "success" && (USE_MOCK ? "Done (mock transaction)." : "Confirmed on-chain.")}
                 {t.status === "error" && t.error}
               </p>
