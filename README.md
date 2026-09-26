@@ -67,8 +67,11 @@ Sepolia:
 
 ```bash
 cd contracts
-forge script script/Deploy.s.sol --rpc-url $SEPOLIA_RPC_URL --broadcast --verify
+forge script script/Deploy.s.sol --rpc-url $SEPOLIA_RPC_URL --broadcast
 ```
+
+Add `--verify` (with an `ETHERSCAN_API_KEY` env var set) if you also want to verify
+the source on Etherscan.
 
 After each deployment, the address is written to `shared/deployments.json` and the
 ABI is regenerated at `shared/CreditLedger.abi.json`.
