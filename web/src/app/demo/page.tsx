@@ -1,71 +1,102 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { CONTRACT_ADDRESS, CONTRACT_URL, TARGET_CHAIN, USE_MOCK } from "@/config/env";
 
 export const metadata: Metadata = { title: "Demo guide · Credit Ledger" };
 
-const STEPS: { time: string; title: string; body: ReactNode }[] = [
+const STEPS: { time: string; who: string; title: string; body: ReactNode }[] = [
   {
     time: "0:00",
+    who: "Presenter",
     title: "Pitch (landing page)",
     body: (
       <>
-        &quot;Creative work is now made by people <i>and</i> AI tools. Credit Ledger records who
-        contributed, proves the file existed, and splits every payment automatically.&quot; Point at
-        the recent works list and the <b>AI-assisted</b> badges.
+        &quot;Credit Ledger records who made a work, human or AI, proves it existed at a time, and
+        splits payments automatically.&quot; Point at the testnet banner and the recent works list.
       </>
     ),
   },
   {
     time: "0:15",
-    title: "Register as the creator (Wallet A)",
+    who: "Alice",
+    title: "Register the work",
     body: (
       <>
-        Connected as <b>Wallet A</b>, open <b>Register</b>. Pick any file and show that its SHA-256
-        fingerprint is computed in the browser. Enter the title, turn on <b>AI-assisted</b>, then add
-        3 contributors: <b>A: Writer 50%</b>, <b>B: Producer 30%</b>, <b>C: AI tool: Suno 20%</b>.
-        Point out that the total shows 100% ✓. Click <b>Register work</b> and approve in the wallet.
+        Open <b>Register</b> and choose the <b>fresh demo file</b>. The SHA-256 fingerprint is
+        computed in the browser. Enter the title &quot;Demo Song&quot;, turn on <b>AI-assisted</b>,
+        and add contributors <b>Alice: Writer 50%</b>, <b>Bob: Producer 30%</b>,{" "}
+        <b>AI tool wallet: &quot;AI tool: Suno&quot; 20%</b>. The total shows 100% ✓. Click{" "}
+        <b>Register work</b>, then <b>Confirm</b> in MetaMask. After about 15 s you land on the work
+        page showing <b>Awaiting confirmations 1/3</b>, because Alice is auto-confirmed.
       </>
     ),
   },
   {
-    time: "0:45",
-    title: "Show the work page",
+    time: "0:40",
+    who: "Bob",
+    title: "Bob confirms",
     body: (
       <>
-        You land on the new work: status <b>Awaiting confirmations 1/3</b> (A was auto-confirmed).
-        The pay form is locked until everyone agrees.
+        In MetaMask, switch the account to <b>Bob</b>; the app follows automatically. On the work
+        page click <b>Confirm my contribution</b>, then <b>Confirm</b> in MetaMask. The status
+        becomes 2/3.
       </>
     ),
   },
   {
-    time: "1:00",
-    title: "Confirm from the other wallets (B, then C)",
+    time: "0:55",
+    who: "AI tool wallet",
+    title: "The AI tool's wallet confirms",
     body: (
       <>
-        Switch to <b>Wallet B</b> and click <b>Confirm my contribution</b>. Switch to{" "}
-        <b>Wallet C (the AI tool wallet)</b>, open <b>Dashboard</b>, and click <b>Confirm</b>{" "}
-        under &quot;Waiting for your confirmation&quot;. The work turns <b>Active</b>.
+        Switch MetaMask to the <b>AI tool</b> account. Confirm from the work page or from{" "}
+        <b>Dashboard → Waiting for your confirmation</b>. The status turns <b>Active</b>.
+      </>
+    ),
+  },
+  {
+    time: "1:10",
+    who: "Alice (or anyone)",
+    title: "Pay 0.001 ETH",
+    body: (
+      <>
+        On the work page, type <b>0.001</b>. The split preview shows Alice 0.0005, Bob 0.0003 and AI
+        tool 0.0002 ETH. Click <b>Pay</b> and confirm in MetaMask. The toast links to the
+        transaction on Etherscan.
       </>
     ),
   },
   {
     time: "1:25",
-    title: "Pay the work (any wallet)",
+    who: "Bob",
+    title: "Bob withdraws",
     body: (
       <>
-        On the work page, enter <b>0.01 ETH</b>. The preview shows the split (0.005 / 0.003 /
-        0.002). Click <b>Pay</b>, and the toast links to the transaction on Etherscan.
+        Switch to <b>Bob</b> and open <b>Dashboard</b>: pending earnings show <b>0.0003 ETH</b>.
+        Click <b>Withdraw</b> and confirm in MetaMask. Pending goes to 0.
       </>
     ),
   },
   {
-    time: "1:45",
-    title: "Withdraw (Wallet B)",
+    time: "1:40",
+    who: "Presenter",
+    title: "Show the public record",
     body: (
       <>
-        Switch to <b>Wallet B</b>, open <b>Dashboard</b>: pending earnings show 0.003 ETH. Click{" "}
-        <b>Withdraw</b>. Close with the <b>Verify a file</b> box: upload the original file for a
-        ✓ Match, then any other file for ✕ No match.
+        Open the toast&apos;s <b>View on explorer</b> link and point at the{" "}
+        <code>PaymentReceived</code> and <code>Withdrawn</code> events.
+      </>
+    ),
+  },
+  {
+    time: "1:50",
+    who: "Presenter",
+    title: "Verify a file and close",
+    body: (
+      <>
+        On the work page, drop the original file into <b>Verify a file</b> (✓ Match), then another
+        file (✕ No match). Close with: &quot;This is a testnet prototype. It proves a file hash and
+        its credited split existed at a time, not that the people credited actually made it.&quot;
       </>
     ),
   },
@@ -74,34 +105,57 @@ const STEPS: { time: string; title: string; body: ReactNode }[] = [
 export default function DemoPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-10">
-      <header className="space-y-2">
+      <header className="space-y-3">
         <h1 className="text-2xl font-semibold">Demo guide</h1>
         <p className="text-stone-600">
-          A 2-minute walkthrough of register, confirm, pay and withdraw, using three wallets:
-          the creator (A), a human collaborator (B) and an AI tool&apos;s wallet (C).
+          A 2-minute walkthrough of register, confirm, pay and withdraw on {TARGET_CHAIN.name}, using
+          three wallets: <b>Alice</b> (creator), <b>Bob</b> (human collaborator) and the{" "}
+          <b>AI tool wallet</b>.
         </p>
+        <p className="rounded-lg border border-sky-200 bg-sky-50 p-3 text-sm text-sky-900">
+          <b>Testnet prototype.</b> The contract is unaudited and runs on the Sepolia testnet with free
+          test ETH. Never use it with real funds.
+          {CONTRACT_URL && CONTRACT_ADDRESS && (
+            <>
+              {" "}
+              Contract:{" "}
+              <a href={CONTRACT_URL} target="_blank" rel="noreferrer" className="break-all font-mono underline">
+                {CONTRACT_ADDRESS} ↗
+              </a>
+            </>
+          )}
+        </p>
+        {USE_MOCK && (
+          <p className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+            You are in <b>mock mode</b> right now: nothing here is on-chain. Say so if you present from
+            this mode.
+          </p>
+        )}
       </header>
 
       <section className="space-y-3">
-        <h2 className="text-lg font-semibold">Before you start</h2>
-        <ul className="list-disc space-y-2 pl-5 text-sm text-stone-700">
+        <h2 className="text-lg font-semibold">Before you go on stage</h2>
+        <ol className="list-decimal space-y-2 pl-5 text-sm text-stone-700">
           <li>
-            <b>Mock mode</b> (no deployment, no MetaMask): set <Code>NEXT_PUBLIC_USE_MOCK=true</Code>{" "}
-            in <Code>web/.env.local</Code> and run <Code>npm run dev</Code>. Use{" "}
-            <b>Connect wallet → Mock: Alice / Bob / AI tool wallet</b> as wallets A / B / C.
-            &quot;Reset demo data&quot; in the yellow banner starts over.
+            In MetaMask, create three accounts named <b>Alice</b>, <b>Bob</b> and <b>AI tool</b>, and
+            keep their addresses in a note to paste into the register form.
           </li>
           <li>
-            <b>Sepolia</b>: set <Code>NEXT_PUBLIC_USE_MOCK=false</Code> (the address comes from{" "}
-            <Code>shared/deployments.json</Code>). In MetaMask create 3 accounts, add them as A / B / C,
-            and fund all three with a little Sepolia ETH (each one pays gas for its own confirm or
-            withdraw). Switch accounts in MetaMask between steps; the app follows automatically.
+            Fund <b>each</b> account with about 0.01 Sepolia ETH from a faucet. Every account pays gas
+            for its own action, including the AI tool wallet (confirm) and Bob (withdraw). If the faucet
+            is rate-limited, fund Alice and send some on to the others.
           </li>
           <li>
-            Before going on stage, copy the three addresses into a note so you can paste them into the
-            register form.
+            Prepare a <b>fresh demo file</b>. A file can only be registered once, so every rehearsal
+            uses one up. Keep a few copies with one character changed, and one untouched for the live
+            run.
           </li>
-        </ul>
+          <li>
+            Open the app with <Code>NEXT_PUBLIC_USE_MOCK=false</Code> and MetaMask on Sepolia. If
+            the red banner appears, click <b>Switch to Sepolia</b>. Keep an Etherscan tab open on the
+            contract.
+          </li>
+        </ol>
       </section>
 
       <section className="space-y-3">
@@ -116,12 +170,36 @@ export default function DemoPage() {
                 <span className="mt-1 text-xs tabular-nums text-stone-500">{step.time}</span>
               </div>
               <div className="space-y-1">
-                <h3 className="font-medium">{step.title}</h3>
+                <h3 className="font-medium">
+                  {step.title} <span className="text-sm font-normal text-stone-500">· {step.who}</span>
+                </h3>
                 <p className="text-sm text-stone-700">{step.body}</p>
               </div>
             </li>
           ))}
         </ol>
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="text-lg font-semibold">If something fails</h2>
+        <ul className="list-disc space-y-2 pl-5 text-sm text-stone-700">
+          <li>
+            <b>RPC slow or failing:</b> set <Code>NEXT_PUBLIC_RPC_URL</Code> to another Sepolia
+            provider and reload. The app already falls back across public RPCs.
+          </li>
+          <li>
+            <b>Out of test ETH:</b> use a spare pre-funded account; never rely on a faucet on stage.
+          </li>
+          <li>
+            <b>Wallet trouble:</b> switch to <b>mock mode</b> (the fallback deployment, or{" "}
+            <Code>NEXT_PUBLIC_USE_MOCK=true</Code> locally). It runs the same flow with &quot;Mock:
+            Alice / Bob / AI tool wallet&quot;. Tell the audience it is mock mode.
+          </li>
+          <li>
+            <b>Everything fails:</b> play the recorded Sepolia run and show an earlier work&apos;s
+            transactions on Etherscan.
+          </li>
+        </ul>
       </section>
     </div>
   );
