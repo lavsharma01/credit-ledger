@@ -58,9 +58,14 @@ npm run dev                  # http://localhost:3000
 
 - **Mock mode** (`NEXT_PUBLIC_USE_MOCK=true`) runs the whole flow in the browser with demo
   wallets. It needs no deployment and no MetaMask.
-- **Sepolia** (`NEXT_PUBLIC_USE_MOCK=false`) reads the address from `shared/deployments.json`
-  and needs MetaMask on Sepolia. Set `NEXT_PUBLIC_CHAIN=anvil` to use a local Anvil node instead.
-- The 2-minute demo click path is on the app's **Demo guide** page (`/demo`).
+- **Sepolia** (`NEXT_PUBLIC_USE_MOCK=false`) uses the deployed contract from
+  `shared/deployments.json` and needs MetaMask on Sepolia. The UI shows a testnet banner: it is a
+  prototype with free test ETH only. Set `NEXT_PUBLIC_CHAIN=anvil` to use a local Anvil node instead.
+- The demo uses three MetaMask accounts (Alice, Bob, AI tool), each funded with a little Sepolia
+  ETH, and a 0.001 ETH payment. The click path is on the app's **Demo guide** page (`/demo`) and
+  in `docs/DEMO_SCRIPT.md`.
+- Deploying on Vercel (root directory `web`, plus a mock-mode fallback deployment) is covered in
+  [`web/README.md`](web/README.md#deploying-on-vercel).
 
 ## Contracts
 

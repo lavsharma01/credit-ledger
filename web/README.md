@@ -35,9 +35,16 @@ localStorage; use **Reset demo data** in the yellow banner to start over.
 
 ## Running against Sepolia
 
-1. Person 1 deploys and commits the address to `shared/deployments.json`. Then `git pull`.
-2. In `web/.env.local`: `NEXT_PUBLIC_USE_MOCK=false` (optionally `NEXT_PUBLIC_RPC_URL=<your Sepolia RPC>`).
-3. `npm run dev`, connect MetaMask, and approve the **Switch to Sepolia** prompt if it appears.
+The contract is live on Sepolia at `0x7E6edc504D7e3e75307fDC8Dcb91788D52c17097`
+([Etherscan](https://sepolia.etherscan.io/address/0x7E6edc504D7e3e75307fDC8Dcb91788D52c17097)).
+This is a **testnet prototype**: the contract is unaudited and uses free test ETH only.
+
+1. In `web/.env.local`: `NEXT_PUBLIC_USE_MOCK=false` (optionally `NEXT_PUBLIC_RPC_URL=<your Sepolia RPC>`;
+   by default reads fall back across public RPCs).
+2. `npm run dev`, connect MetaMask, and approve the **Switch to Sepolia** prompt if it appears.
+3. Optional checks that need no wallet: `node scripts/smoke-read.mjs` (address, ABI, reads) and
+   `node scripts/smoke-errors.mjs [workId]` (simulates every revert and checks it has a friendly
+   message).
 
 For local Anvil: run `anvil`, deploy with the Foundry script, and set `NEXT_PUBLIC_CHAIN=anvil`.
 Then import an Anvil dev key into MetaMask and add the network (RPC `http://127.0.0.1:8545`,
@@ -45,18 +52,34 @@ chain id 31337).
 
 ## Demo (2 minutes)
 
-The full click path is on the in-app **Demo guide** page (`/demo`). In short:
+The full click path is on the in-app **Demo guide** page (`/demo`) and in `docs/DEMO_SCRIPT.md`.
+It uses three MetaMask accounts, **Alice**, **Bob** and **AI tool**, each funded with about
+0.01 Sepolia ETH, because each one pays gas for its own action. Use a fresh file for every run,
+since a file can only be registered once.
 
-1. **Wallet A** registers a file with 3 contributors: A Writer 50%, B Producer 30%,
-   C "AI tool: Suno" 20%. The work shows *Awaiting confirmations 1/3*.
-2. **Wallet B** confirms on the work page. **Wallet C** (the AI tool) confirms from its
-   Dashboard. The work turns **Active**.
-3. Any wallet pays 0.01 ETH. The split preview shows 0.005 / 0.003 / 0.002, and a toast links
+1. **Alice** registers "Demo Song": Alice Writer 50%, Bob Producer 30%, AI tool wallet
+   "AI tool: Suno" 20%. The work shows *Awaiting confirmations 1/3*.
+2. **Bob** confirms on the work page. The **AI tool** wallet confirms from its Dashboard. The
+   work turns **Active**.
+3. Alice pays **0.001 ETH**. The preview shows 0.0005 / 0.0003 / 0.0002, and the toast links
    to Etherscan.
-4. **Wallet B** opens Dashboard and clicks **Withdraw** (0.003 ETH).
+4. **Bob** opens Dashboard and clicks **Withdraw** (0.0003 ETH).
 5. Finish with **Verify a file**: the original file gives ✓ Match, any other file gives ✕ No match.
 
-In mock mode, wallets A/B/C are "Mock: Alice / Bob / AI tool wallet" in the Connect menu.
+In mock mode, the three accounts are "Mock: Alice / Bob / AI tool wallet" in the Connect menu.
+
+## Deploying on Vercel
+
+Import the repo in Vercel with **Root Directory = `web`**. Keep **"Include files outside the
+root directory in the Build Step"** enabled (the default). `npm install` then runs
+`scripts/sync-contracts.mjs`, which reads `../shared`. Environment variables:
+
+| Deployment | Variables |
+| --- | --- |
+| Live (Sepolia) | `NEXT_PUBLIC_USE_MOCK=false`, `NEXT_PUBLIC_CHAIN=sepolia`, optional `NEXT_PUBLIC_RPC_URL` |
+| Fallback (mock) | `NEXT_PUBLIC_USE_MOCK=true` |
+
+`NEXT_PUBLIC_*` values are baked in at build time, so redeploy after changing them.
 
 ## Contract ABI and address
 
