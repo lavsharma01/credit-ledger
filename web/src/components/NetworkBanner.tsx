@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useConnection, useSwitchChain } from "wagmi";
-import { CONTRACT_ADDRESS, TARGET_CHAIN, USE_MOCK } from "@/config/env";
+import { CONTRACT_ADDRESS, CONTRACT_URL, TARGET_CHAIN, USE_MOCK } from "@/config/env";
 import { QUERY_ROOT } from "@/hooks/internal";
 import { friendlyError } from "@/lib/errors";
 import { resetMockStore } from "@/lib/mock/store";
@@ -64,14 +64,29 @@ export function NetworkBanner() {
     );
   }
 
-  return null;
+  return (
+    <Banner tone="sky">
+      <span>
+        <b>{TARGET_CHAIN.testnet ? `${TARGET_CHAIN.name} testnet prototype` : TARGET_CHAIN.name}:</b>{" "}
+        {TARGET_CHAIN.testnet
+          ? "payments use free test ETH. No real funds are involved."
+          : "local development chain."}
+      </span>
+      {CONTRACT_URL && (
+        <a href={CONTRACT_URL} target="_blank" rel="noreferrer" className="underline">
+          Contract on Etherscan ↗
+        </a>
+      )}
+    </Banner>
+  );
 }
 
-function Banner({ tone, children }: { tone: "amber" | "red"; children: ReactNode }) {
-  const styles =
-    tone === "amber"
-      ? "border-amber-200 bg-amber-50 text-amber-900"
-      : "border-red-200 bg-red-50 text-red-900";
+function Banner({ tone, children }: { tone: "amber" | "red" | "sky"; children: ReactNode }) {
+  const styles = {
+    amber: "border-amber-200 bg-amber-50 text-amber-900",
+    red: "border-red-200 bg-red-50 text-red-900",
+    sky: "border-sky-200 bg-sky-50 text-sky-900",
+  }[tone];
   return (
     <div className={`border-b ${styles}`}>
       <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-4 gap-y-1 px-4 py-2 text-sm">

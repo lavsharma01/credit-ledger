@@ -20,7 +20,11 @@ function resolveAddress(): Address | undefined {
 /** Undefined until the contract is deployed on the target chain (mock mode ignores it). */
 export const CONTRACT_ADDRESS = resolveAddress();
 
-const explorer = TARGET_CHAIN.blockExplorers?.default.url;
+// Prefer an explorer URL published in shared/deployments.json, else the chain's default.
+const explorer = (deployments[chainKey]?.explorerUrl || TARGET_CHAIN.blockExplorers?.default.url)?.replace(
+  /\/+$/,
+  "",
+);
 
 /** Block explorer link for a tx, or undefined on chains without an explorer (Anvil, mock). */
 export function txUrl(hash: Hash): string | undefined {
@@ -32,3 +36,6 @@ export function addressUrl(address: Address): string | undefined {
   if (USE_MOCK || !explorer) return undefined;
   return `${explorer}/address/${address}`;
 }
+
+/** Explorer link for the deployed CreditLedger contract. */
+export const CONTRACT_URL = CONTRACT_ADDRESS ? addressUrl(CONTRACT_ADDRESS) : undefined;

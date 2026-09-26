@@ -5,6 +5,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Header } from "@/components/Header";
 import { NetworkBanner } from "@/components/NetworkBanner";
 import { TxToaster } from "@/components/TxToaster";
+import { CONTRACT_ADDRESS, CONTRACT_URL, TARGET_CHAIN } from "@/config/env";
+import { shortAddress } from "@/lib/format";
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -20,7 +22,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col font-sans">
+      {/* Browser extensions (e.g. Grammarly) add attributes to <body>; ignore that mismatch. */}
+      <body className="flex min-h-full flex-col font-sans" suppressHydrationWarning>
         <Providers>
           <Header />
           <NetworkBanner />
@@ -30,6 +33,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <Link href="/demo" className="underline">
               Demo guide
             </Link>
+            {CONTRACT_URL && CONTRACT_ADDRESS && (
+              <>
+                {" "}
+                · Contract on {TARGET_CHAIN.name}:{" "}
+                <a href={CONTRACT_URL} target="_blank" rel="noreferrer" className="font-mono underline">
+                  {shortAddress(CONTRACT_ADDRESS)} ↗
+                </a>
+              </>
+            )}
           </footer>
           <TxToaster />
         </Providers>

@@ -40,5 +40,5 @@ mkdirSync(outDir, { recursive: true });
 writeIfChanged("abi.ts", `${header}export const creditLedgerAbi = ${JSON.stringify(abi, null, 2)} as const;\n`);
 writeIfChanged(
   "deployments.ts",
-  `${header}export const deployments: Record<string, { chainId: number; address: string }> = ${JSON.stringify(deployments, null, 2)};\n`,
+  `${header}export const deployments: Record<string, { chainId: number; address: string; explorerUrl?: string }> = ${JSON.stringify(deployments, null, 2)};\n`,
 );

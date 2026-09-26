@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import type { Hash } from "viem";
-import { txUrl } from "@/config/env";
+import { txUrl, USE_MOCK } from "@/config/env";
 import type { TxState, Work } from "@/lib/types";
 
 export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
@@ -105,7 +105,7 @@ export function TxFeedback({ tx, success }: { tx: TxState; success?: ReactNode }
       )}
       {tx.status === "confirming" && (
         <>
-          <Spinner /> Waiting for the transaction to be mined…
+          <Spinner /> Waiting for the transaction to be mined{USE_MOCK ? "" : " (usually ~15 s on Sepolia)"}…
         </>
       )}
       {tx.status === "success" && <span className="text-emerald-700">✓ {success ?? "Done!"}</span>}

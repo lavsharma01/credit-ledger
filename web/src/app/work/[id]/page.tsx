@@ -19,7 +19,7 @@ import {
   TxFeedback,
 } from "@/components/ui";
 import { addressUrl } from "@/config/env";
-import { useConfirm, usePay, useWork } from "@/hooks";
+import { isWorkNotFound, useConfirm, usePay, useWork } from "@/hooks";
 import { friendlyError } from "@/lib/errors";
 import { bpsToPercent, formatEth, formatTimestamp, sameAddress, shortAddress } from "@/lib/format";
 import { BPS_TOTAL, type Contributor, type Work } from "@/lib/types";
@@ -29,7 +29,7 @@ export default function WorkPage() {
   const id = /^\d+$/.test(params.id) && params.id !== "0" ? BigInt(params.id) : undefined;
   const { data, isLoading, error, refetch } = useWork(id);
 
-  if (id === undefined || data === null) {
+  if (id === undefined || isWorkNotFound(error)) {
     return (
       <EmptyState title="Work not found">
         <Link href="/" className="text-indigo-700 underline">
