@@ -33,6 +33,31 @@ errors as the real contract. The **Connect wallet** menu lists demo wallets
 run the whole register, confirm, pay, withdraw flow in one browser. State persists in
 localStorage; use **Reset demo data** in the yellow banner to start over.
 
+## Running against Sepolia
+
+1. Person 1 deploys and commits the address to `shared/deployments.json`. Then `git pull`.
+2. In `web/.env.local`: `NEXT_PUBLIC_USE_MOCK=false` (optionally `NEXT_PUBLIC_RPC_URL=<your Sepolia RPC>`).
+3. `npm run dev`, connect MetaMask, and approve the **Switch to Sepolia** prompt if it appears.
+
+For local Anvil: run `anvil`, deploy with the Foundry script, and set `NEXT_PUBLIC_CHAIN=anvil`.
+Then import an Anvil dev key into MetaMask and add the network (RPC `http://127.0.0.1:8545`,
+chain id 31337).
+
+## Demo (2 minutes)
+
+The full click path is on the in-app **Demo guide** page (`/demo`). In short:
+
+1. **Wallet A** registers a file with 3 contributors: A Writer 50%, B Producer 30%,
+   C "AI tool: Suno" 20%. The work shows *Awaiting confirmations 1/3*.
+2. **Wallet B** confirms on the work page. **Wallet C** (the AI tool) confirms from its
+   Dashboard. The work turns **Active**.
+3. Any wallet pays 0.01 ETH. The split preview shows 0.005 / 0.003 / 0.002, and a toast links
+   to Etherscan.
+4. **Wallet B** opens Dashboard and clicks **Withdraw** (0.003 ETH).
+5. Finish with **Verify a file**: the original file gives ✓ Match, any other file gives ✕ No match.
+
+In mock mode, wallets A/B/C are "Mock: Alice / Bob / AI tool wallet" in the Connect menu.
+
 ## Contract ABI and address
 
 `/shared` is owned by the contracts team, and Turbopack can't import files outside
