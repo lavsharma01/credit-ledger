@@ -4,9 +4,10 @@ import { MOCK_ACCOUNTS } from "@/lib/mock/accounts";
 import { OTHER_CHAIN, RPC_URL, TARGET_CHAIN, USE_MOCK } from "./env";
 
 // In mock mode, each demo persona is its own connector so you can switch
-// "wallets" from the connect menu without MetaMask.
+// "wallets" from the connect menu without MetaMask. defaultConnected lets wagmi
+// restore the last-used persona after a page reload.
 const mockConnectors: CreateConnectorFn[] = MOCK_ACCOUNTS.map(({ address, label }, i) => {
-  const base = mock({ accounts: [address], features: { reconnect: true } });
+  const base = mock({ accounts: [address], features: { defaultConnected: true, reconnect: true } });
   return (config) => ({ ...base(config), id: `mock-${i}`, name: label });
 });
 
