@@ -15,7 +15,7 @@ export async function fetchWork(id: bigint): Promise<Work> {
   return { id, ...work };
 }
 
-async function fetchWorks(): Promise<Work[]> {
+export async function fetchWorks(): Promise<Work[]> {
   const count = USE_MOCK
     ? mockLedger.workCount()
     : await readContract(wagmiConfig, { ...ledger, functionName: "workCount" });

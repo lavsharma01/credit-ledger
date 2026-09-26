@@ -8,7 +8,7 @@ import type { Contributor, WorkDetail } from "@/lib/types";
 import { ledger, QUERY_ROOT, REFETCH_INTERVAL } from "./internal";
 import { fetchWork } from "./useWorks";
 
-async function fetchContributors(id: bigint): Promise<Contributor[]> {
+export async function fetchContributors(id: bigint): Promise<Contributor[]> {
   if (USE_MOCK) return mockLedger.getContributors(id);
   const list = await readContract(wagmiConfig, { ...ledger, functionName: "getContributors", args: [id] });
   return list.map((c) => ({ ...c }));

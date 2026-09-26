@@ -3,6 +3,7 @@
 // so pages never need to know which mode they're in.
 export { useWorks } from "./useWorks";
 export { useWork } from "./useWork";
+export { useWorkDetails } from "./useWorkDetails";
 export { useWorkIdByHash } from "./useWorkIdByHash";
 export { usePendingWithdrawal } from "./usePendingWithdrawal";
 export { useRegisterWork } from "./useRegisterWork";

@@ -1,7 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useConnect, useConnection, useConnectors, useDisconnect } from "wagmi";
+import {
+  useConnect,
+  useConnection,
+  useConnections,
+  useConnectors,
+  useDisconnect,
+  useSwitchConnection,
+} from "wagmi";
 import { USE_MOCK } from "@/config/env";
 import { friendlyError } from "@/lib/errors";
 import { shortAddress } from "@/lib/format";
@@ -10,6 +17,8 @@ export function ConnectButton() {
   const { address, connector, isConnected, isConnecting, isReconnecting } = useConnection();
   const connectors = useConnectors();
   const connect = useConnect();
+  const connections = useConnections();
+  const switchConnection = useSwitchConnection();
   const disconnect = useDisconnect();
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -24,10 +33,22 @@ export function ConnectButton() {
     return () => document.removeEventListener("mousedown", onClick);
   }, [open]);
 
-  const choose = async (index: number) => {
+  // wagmi keeps several connections at once (mock mode restores every persona), so
+  // switch to an existing one instead of reconnecting it.
+  const choose = (index: number) => {
     setOpen(false);
-    if (isConnected) await disconnect.mutateAsync();
-    connect.mutate({ connector: connectors[index] });
+    connect.reset();
+    const target = connectors[index];
+    if (connections.some((c) => c.connector.uid === target.uid)) {
+      switchConnection.mutate({ connector: target });
+    } else {
+      connect.mutate({ connector: target });
+    }
+  };
+
+  const disconnectAll = () => {
+    setOpen(false);
+    connections.forEach((c) => disconnect.mutate({ connector: c.connector }));
   };
 
   const busy = isConnecting || isReconnecting || connect.isPending;
@@ -78,10 +99,7 @@ export function ConnectButton() {
           {isConnected && (
             <button
               type="button"
-              onClick={() => {
-                setOpen(false);
-                disconnect.mutate();
-              }}
+              onClick={disconnectAll}
               className="block w-full border-t border-stone-100 px-3 py-2 text-left text-red-600 hover:bg-red-50"
             >
               Disconnect
