@@ -6,6 +6,18 @@ among its contributors according to agreed shares.
 
 Built for the **AI-Native Creator Economy & Digital Rights** track.
 
+## Status
+
+This is a **hackathon prototype on a testnet**. The contract is **unaudited** and must
+**not be used with real funds**.
+
+## Deployed contract (Sepolia testnet)
+
+- Address: `0x7E6edc504D7e3e75307fDC8Dcb91788D52c17097`
+- Etherscan: https://sepolia.etherscan.io/address/0x7E6edc504D7e3e75307fDC8Dcb91788D52c17097
+- Chain id: 11155111. The address and ABI for the frontend live in `shared/deployments.json`
+  and `shared/CreditLedger.abi.json`.
+
 ## How it works
 
 1. A creator registers a work on-chain with a content hash (proof it existed at a
@@ -102,3 +114,9 @@ ABI is regenerated at `shared/CreditLedger.abi.json`.
 - No admin keys or privileged roles — nobody can alter a work's contributors or
   shares after registration.
 - No upgradeability / no proxies — the deployed bytecode is immutable.
+- Tested with 25 Foundry tests, including a fuzz test that credited amounts always sum to
+  the payment and a reentrancy attack test. Tests are not an audit.
+- Limits to know about: a registered hash proves an address registered it at that time, not
+  that the address authored the file. AI tool credits are just wallet addresses. ETH only.
+  Contributors and shares cannot be changed after registration. See `docs/SUBMISSION.md`
+  for the full list of limitations.
