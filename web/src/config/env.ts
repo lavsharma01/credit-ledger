@@ -20,11 +20,8 @@ function resolveAddress(): Address | undefined {
 /** Undefined until the contract is deployed on the target chain (mock mode ignores it). */
 export const CONTRACT_ADDRESS = resolveAddress();
 
-// Prefer an explorer URL published in shared/deployments.json, else the chain's default.
-const explorer = (deployments[chainKey]?.explorerUrl || TARGET_CHAIN.blockExplorers?.default.url)?.replace(
-  /\/+$/,
-  "",
-);
+// Etherscan links are built from the chain's explorer + address/tx hash.
+const explorer = TARGET_CHAIN.blockExplorers?.default.url;
 
 /** Block explorer link for a tx, or undefined on chains without an explorer (Anvil, mock). */
 export function txUrl(hash: Hash): string | undefined {
