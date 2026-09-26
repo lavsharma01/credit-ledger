@@ -98,6 +98,9 @@ function insert(s: State, sender: Address, input: RegisterWorkInput, registeredA
   if (roles.length !== wallets.length || sharesBps.length !== wallets.length) {
     throw new MockContractError("LengthMismatch");
   }
+  if (s.works.some((w) => w.contentHash.toLowerCase() === input.contentHash.toLowerCase())) {
+    throw new MockContractError("HashAlreadyRegistered");
+  }
   const seen = new Set<string>();
   let total = 0;
   wallets.forEach((w, i) => {
@@ -108,9 +111,6 @@ function insert(s: State, sender: Address, input: RegisterWorkInput, registeredA
     total += sharesBps[i];
   });
   if (total !== BPS_TOTAL) throw new MockContractError("SharesNot100Percent");
-  if (s.works.some((w) => w.contentHash.toLowerCase() === input.contentHash.toLowerCase())) {
-    throw new MockContractError("HashAlreadyRegistered");
-  }
 
   const contributors: Contributor[] = wallets.map((w, i) => ({
     wallet: getAddress(w),
@@ -200,7 +200,9 @@ export const mockLedger = {
   },
   payWork(_sender: Address, id: bigint, value: bigint) {
     const s = load();
-    if (!workOrThrow(s, id).active) throw new MockContractError("WorkNotActive");
+    // The contract reverts WorkNotActive (not WorkNotFound) for unknown ids too.
+    const work = id > 0n ? s.works[Number(id) - 1] : undefined;
+    if (!work?.active) throw new MockContractError("WorkNotActive");
     if (value <= 0n) throw new MockContractError("ZeroPayment");
     credit(s, id, value);
     save();
