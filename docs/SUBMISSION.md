@@ -46,6 +46,7 @@ Creative work increasingly involves several people and AI tools, but credit is i
 - Contract: `0x7E6edc504D7e3e75307fDC8Dcb91788D52c17097`
 - Etherscan (source code verified): https://sepolia.etherscan.io/address/0x7E6edc504D7e3e75307fDC8Dcb91788D52c17097#code
 - Repository: https://github.com/lavsharma01/credit-ledger
+- Live app: https://credit-ledger-olive.vercel.app/
 
 ## Limitations and next steps
 
@@ -68,3 +69,11 @@ Next steps:
 - Attestations (for example EAS) or signed statements from AI tool providers to back up AI credits.
 - Resale and licensing hooks, for example an ERC-2981 style royalty signal for marketplaces.
 - Support for L2 networks to make small payments cheaper.
+
+## Submission checklist
+
+- [ ] Repository: https://github.com/lavsharma01/credit-ledger
+- [ ] Verified contract on Etherscan: https://sepolia.etherscan.io/address/0x7E6edc504D7e3e75307fDC8Dcb91788D52c17097#code
+- [ ] Live app: https://credit-ledger-olive.vercel.app/
+- [ ] Demo video: TODO_ADD_VIDEO_LINK_HERE
+- [ ] Track: AI-Native Creator Economy and Digital Rights (Track 5)

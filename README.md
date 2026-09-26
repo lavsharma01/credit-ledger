@@ -15,6 +15,7 @@ This is a **hackathon prototype on a testnet**. The contract is **unaudited** an
 
 - Address: `0x7E6edc504D7e3e75307fDC8Dcb91788D52c17097`
 - Etherscan (source code verified): https://sepolia.etherscan.io/address/0x7E6edc504D7e3e75307fDC8Dcb91788D52c17097#code
+- Live app: https://credit-ledger-olive.vercel.app/
 - Chain id: 11155111. The address and ABI for the frontend live in `shared/deployments.json`
   and `shared/CreditLedger.abi.json`.
 
