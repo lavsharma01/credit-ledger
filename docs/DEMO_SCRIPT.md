@@ -30,7 +30,7 @@ Live on Sepolia with three wallets. Contract: `0x7E6edc504D7e3e75307fDC8Dcb91788
 | 0:55 | AI tool wallet | Switch to the AI wallet, confirm from the work page or dashboard. | 3/3, status turns **Active** | Web UI + contract |
 | 1:10 | Alice (or anyone) | Pay **0.001 ETH** to the work. | Split preview: Alice 0.0005, Bob 0.0003, AI tool 0.0002 ETH. Toast with a transaction link. | Web UI + contract |
 | 1:25 | Bob | Open the dashboard: pending balance 0.0003 ETH. Click Withdraw. | Balance moves to Bob's wallet, pending goes to 0 | Web UI + contract |
-| 1:40 | Presenter | Open the transaction link from the toast on Etherscan. Point at the `PaymentReceived` and `Withdrawn` events. Optionally open the contract's verified source tab. | Public, permanent record | Etherscan |
+| 1:40 | Presenter | Open the transaction link from the toast on Etherscan. Point at the `PaymentReceived` and `Withdrawn` events. Optionally open the contract's Code tab, where the verified source is public. | Public, permanent record | Etherscan |
 | 1:50 | Presenter | "Verify a file": drop the original file (match), then a different file (no match). Close with the limitations line below. | Match / No match | Web UI |
 
 Closing line (honest): "This is a testnet prototype. It proves a file hash and its credited split existed at a

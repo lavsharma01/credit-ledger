@@ -44,7 +44,7 @@ Creative work increasingly involves several people and AI tools, but credit is i
 
 - Network: Sepolia testnet (chain id 11155111)
 - Contract: `0x7E6edc504D7e3e75307fDC8Dcb91788D52c17097`
-- Etherscan: https://sepolia.etherscan.io/address/0x7E6edc504D7e3e75307fDC8Dcb91788D52c17097
+- Etherscan (source code verified): https://sepolia.etherscan.io/address/0x7E6edc504D7e3e75307fDC8Dcb91788D52c17097#code
 - Repository: https://github.com/lavsharma01/credit-ledger
 
 ## Limitations and next steps
