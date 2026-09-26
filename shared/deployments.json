@@ -1,0 +1,4 @@
+{
+  "sepolia": { "chainId": 11155111, "address": "" },
+  "anvil": { "chainId": 31337, "address": "" }
+}
