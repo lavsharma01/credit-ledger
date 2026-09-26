@@ -2,13 +2,13 @@
 node_modules/
 .next/
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
 
 # Foundry
 contracts/out/
 contracts/cache/
-contracts/broadcast/*/31337/
+contracts/broadcast/
 contracts/.env
 
 # OS / editor
