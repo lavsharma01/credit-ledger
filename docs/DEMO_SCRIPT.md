@@ -31,10 +31,15 @@ Live on Sepolia with three wallets. Contract: `0x7E6edc504D7e3e75307fDC8Dcb91788
 | 1:10 | Alice (or anyone) | Pay **0.001 ETH** to the work. | Split preview: Alice 0.0005, Bob 0.0003, AI tool 0.0002 ETH. Toast with a transaction link. | Web UI + contract |
 | 1:25 | Bob | Open the dashboard: pending balance 0.0003 ETH. Click Withdraw. | Balance moves to Bob's wallet, pending goes to 0 | Web UI + contract |
 | 1:40 | Presenter | Open the transaction link from the toast on Etherscan. Point at the `PaymentReceived` and `Withdrawn` events. Optionally open the contract's Code tab, where the verified source is public. | Public, permanent record | Etherscan |
-| 1:50 | Presenter | "Verify a file": drop the original file (match), then a different file (no match). Close with the limitations line below. | Match / No match | Web UI |
+| 1:50 | Presenter | Open the work page and use the "Verify a file" card: drop the original file (match), then a different file (no match). Close with the limitations line below. | Match / No match | Web UI |
 
 Closing line (honest): "This is a testnet prototype. It proves a file hash and its credited split existed at a
 time, not that the people credited actually made it."
+
+## Demo tips
+
+- **After a withdrawal, do not show the wallet balance.** Small withdrawals cost about as much in gas as they pay out, so the wallet balance barely moves. In testing, Bob's 0.0003 ETH withdrawal cost roughly 0.0003 ETH in gas. Show the pending balance dropping to 0 on the dashboard and the `Withdrawn` event on Etherscan instead.
+- Tell the audience which network and mode they are looking at (Sepolia testnet, not mock mode).
 
 ## Numbers to have ready
 
@@ -55,7 +60,7 @@ Always tell the audience which mode they are looking at. Do not present mock mod
 
 ## What Person 2's UI covers
 
-Person 2's web app (`/web`) covers the register form, hashing the file in the browser, the work page with contributor list and confirm buttons, the dashboard with pending balance and Withdraw, the payment form with split preview, the transaction toast linking to Etherscan, the "Verify a file" page, mock mode and an in-app demo guide at `/demo`. See `web/README.md`. The in-app guide uses 0.01 ETH per payment; this script uses 0.001 ETH to save faucet funds, so type that amount if the field is prefilled.
+Person 2's web app (`/web`) covers the register form, hashing the file in the browser, the work page with contributor list and confirm buttons, the dashboard with pending balance and Withdraw, the payment form with split preview, the transaction toast linking to Etherscan, the "Verify a file" card on each work page, mock mode and an in-app demo guide at `/demo`. See `web/README.md`. The in-app guide and this script both use 0.001 ETH per payment, to save faucet funds.
 
 Contract-side behavior (rules, split, events) is covered by 25 Foundry tests in `contracts/test`.
 

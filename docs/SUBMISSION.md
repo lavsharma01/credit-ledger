@@ -58,6 +58,7 @@ Limitations:
 - **No royalty on resale or reuse.** The contract splits payments that are sent to it. It cannot force anyone to pay, and it does not track secondary sales.
 - **Fixed after registration.** Contributors and shares cannot be edited or removed, and a work cannot be cancelled. If one contributor never confirms, the work never becomes active and cannot be paid.
 - **Content is off-chain.** Only the hash is stored. The metadata link is not validated or pinned.
+- **Small withdrawals can cost about as much in gas as they pay out.** On Ethereum mainnet, gas fees would often exceed the value of small payouts. In our Sepolia testing, Bob's 0.0003 ETH withdrawal cost roughly as much in gas as he received. Deploying on a low-fee L2 is the next step.
 - **Immutable.** There is no upgrade path, so a bug cannot be patched on the deployed contract.
 
 Next steps:
